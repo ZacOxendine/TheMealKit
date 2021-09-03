@@ -10,29 +10,30 @@ import UIKit
 class CategoriesTableViewController: UITableViewController {
     let cellIdentifier = "Category Table View Cell"
     let segueIdentifier = "Category Storyboard Segue"
-    var categories: [Category]? {
-        didSet {
-            categories?.sort(by: { $0.name < $1.name })
-            DispatchQueue.main.async { self.tableView.reloadData() }
-        }
+    let theMealDB = TheMealDB()
+    var categories = [Category]() {
+        didSet { categories.sort(by: { $0.name < $1.name }) }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         navigationItem.title = "Categories"
-        TheMealDB().requestCategories(completion: { self.categories = $0?.all })
+        theMealDB.requestCategories(completion: { categories in
+            if let categories = categories { self.categories = categories.all }
+            DispatchQueue.main.async { self.tableView.reloadData() }
+        })
     }
 
     // MARK: - Table View Data Source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories?.count ?? 0
+        return categories.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-        cell.textLabel?.text = categories?[indexPath.row].name
+        cell.textLabel?.text = categories[indexPath.row].name
         return cell
     }
 
@@ -42,7 +43,7 @@ class CategoriesTableViewController: UITableViewController {
         if segue.identifier == segueIdentifier {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let mealsTableViewController = segue.destination as! MealsTableViewController
-                mealsTableViewController.categoryName = categories?[indexPath.row].name
+                mealsTableViewController.category = categories[indexPath.row].name
             }
         }
     }

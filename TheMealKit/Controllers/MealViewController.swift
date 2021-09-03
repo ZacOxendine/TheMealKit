@@ -11,44 +11,42 @@ class MealViewController: UIViewController {
     @IBOutlet weak var nameTextView: UITextView!
     @IBOutlet weak var ingredientsTextView: UITextView!
     @IBOutlet weak var instructionsTextView: UITextView!
-    var mealID: String? {
+    let theMealDB = TheMealDB()
+    var id = String()
+    var meals = [Meal]() {
         didSet {
-            TheMealDB().requestMeal(by: mealID, completion: { self.meal = $0?.all.first })
-        }
-    }
-    var meal: Meal? {
-        didSet {
-            collectIngredients(of: meal)
-            collectMeasurements(of: meal)
+            guard let meal = meals.first else { return }
             DispatchQueue.main.async { [self] in
-                nameTextView.text = formatTitle(of: meal?.name)
-                ingredientsTextView.text = formatList(of: ingredients, with: measurements)
-                instructionsTextView.text = meal?.instructions.trimmingCharacters(in: .whitespacesAndNewlines)
+                nameTextView.text = meal.name.titlized()
+                ingredientsTextView.text = formatIngredients(of: meal)
+                instructionsTextView.text = meal.instructions.trimmingCharacters(in: .whitespacesAndNewlines)
             }
         }
     }
-    var ingredients = [String?]()
-    var measurements = [String?]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Recipe"
+        theMealDB.requestMeal(by: id, completion: { meals in
+            if let meals = meals { self.meals = meals.all }
+        })
     }
 
-    func collectIngredients(of meal: Meal?) {
-        ingredients = [
-            meal?.ingredient1, meal?.ingredient2, meal?.ingredient3, meal?.ingredient4, meal?.ingredient5,
-            meal?.ingredient6, meal?.ingredient7, meal?.ingredient8, meal?.ingredient9, meal?.ingredient10,
-            meal?.ingredient11, meal?.ingredient12, meal?.ingredient13, meal?.ingredient14, meal?.ingredient15,
-            meal?.ingredient16, meal?.ingredient17, meal?.ingredient18, meal?.ingredient19, meal?.ingredient20
-        ]
-    }
+    func formatIngredients(of meal: Meal) -> String {
+        var list = String()
 
-    func collectMeasurements(of meal: Meal?) {
-        measurements = [
-            meal?.measurement1, meal?.measurement2, meal?.measurement3, meal?.measurement4, meal?.measurement5,
-            meal?.measurement6, meal?.measurement7, meal?.measurement8, meal?.measurement9, meal?.measurement10,
-            meal?.measurement11, meal?.measurement12, meal?.measurement13, meal?.measurement14, meal?.measurement15,
-            meal?.measurement16, meal?.measurement17, meal?.measurement18, meal?.measurement19,meal?.measurement20
-        ]
+        for index in meal.ingredients.indices {
+            var ingredient = meal.ingredients[index].trimmingCharacters(in: .whitespaces)
+            var measurement = meal.measurements[index].trimmingCharacters(in: .whitespaces)
+
+            if !ingredient.isEmpty && !measurement.isEmpty {
+                ingredient = ingredient.titlized()
+                measurement = measurement.lowercased()
+                list += "• \(ingredient) (\(measurement))\n"
+            }
+        }
+
+        list = list.trimmingCharacters(in: .newlines)
+        return list.isEmpty ? "Not Available" : list
     }
 }

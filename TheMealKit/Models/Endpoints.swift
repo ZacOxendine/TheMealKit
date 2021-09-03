@@ -10,25 +10,22 @@ import Foundation
 struct Endpoint {
     // URL Components
     let scheme = "https"
-    var host: String
-    var path: String
+    let host = "www.themealdb.com"
+    let pathBase = "/api/json/v1/1/"
+    var pathEndpoint: String
     var queryItems: [URLQueryItem] = []
 }
 
 extension Endpoint {
     // Categories Endpoint
     static func categories() -> Self {
-        Endpoint(
-            host: "www.themealdb.com",
-            path: "/api/json/v1/1/categories.php"
-        )
+        Endpoint(pathEndpoint: "categories.php")
     }
 
     // Filter Meals by Category Endpoint
     static func meals(by category: String) -> Self {
         Endpoint(
-            host: "www.themealdb.com",
-            path: "/api/json/v1/1/filter.php",
+            pathEndpoint: "filter.php",
             queryItems: [URLQueryItem(name: "c", value: category)]
         )
     }
@@ -36,8 +33,7 @@ extension Endpoint {
     // Lookup Meal by ID Endpoint
     static func meal(by id: String) -> Self {
         Endpoint(
-            host: "www.themealdb.com",
-            path: "/api/json/v1/1/lookup.php",
+            pathEndpoint: "lookup.php",
             queryItems: [URLQueryItem(name: "i", value: id)]
         )
     }
@@ -49,7 +45,7 @@ extension Endpoint {
         var urlComponents = URLComponents()
         urlComponents.scheme = scheme
         urlComponents.host = host
-        urlComponents.path = path
+        urlComponents.path = pathBase + pathEndpoint
         urlComponents.queryItems = queryItems
 
         guard let url = urlComponents.url else { fatalError("invalid URL") }

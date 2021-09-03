@@ -20,7 +20,7 @@
 		7FB528DA26C5DBD5005DD8B6 /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB528D926C5DBD5005DD8B6 /* Categories.swift */; };
 		7FB528DC26C5DBDE005DD8B6 /* CategoryMeals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB528DB26C5DBDE005DD8B6 /* CategoryMeals.swift */; };
 		7FB528DE26C5DBE9005DD8B6 /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB528DD26C5DBE9005DD8B6 /* Meal.swift */; };
-		7FFECE6F26D81A140041367D /* UIViewController+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFECE6E26D81A140041367D /* UIViewController+Helpers.swift */; };
+		7FFECE6F26D81A140041367D /* String+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFECE6E26D81A140041367D /* String+Helpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,7 +39,7 @@
 		7FB528D926C5DBD5005DD8B6 /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
 		7FB528DB26C5DBDE005DD8B6 /* CategoryMeals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMeals.swift; sourceTree = "<group>"; };
 		7FB528DD26C5DBE9005DD8B6 /* Meal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meal.swift; sourceTree = "<group>"; };
-		7FFECE6E26D81A140041367D /* UIViewController+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Helpers.swift"; sourceTree = "<group>"; };
+		7FFECE6E26D81A140041367D /* String+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Helpers.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +76,7 @@
 				7FB528BB26C5D3EC005DD8B6 /* SceneDelegate.swift */,
 				7FB528CD26C5D40D005DD8B6 /* Models */,
 				7FB528CE26C5D412005DD8B6 /* Controllers */,
+				7FF8E8AC26E19C0500B57273 /* Extensions */,
 				7FB528BF26C5D3EC005DD8B6 /* Main.storyboard */,
 				7FB528C226C5D3F1005DD8B6 /* Assets.xcassets */,
 				7FB528C426C5D3F1005DD8B6 /* LaunchScreen.storyboard */,
@@ -102,9 +103,16 @@
 				7FB528CF26C5D678005DD8B6 /* CategoriesTableViewController.swift */,
 				7FB528D126C5D6BC005DD8B6 /* MealsTableViewController.swift */,
 				7FB528D326C5D6E1005DD8B6 /* MealViewController.swift */,
-				7FFECE6E26D81A140041367D /* UIViewController+Helpers.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		7FF8E8AC26E19C0500B57273 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7FFECE6E26D81A140041367D /* String+Helpers.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,7 +189,7 @@
 				7FB528DC26C5DBDE005DD8B6 /* CategoryMeals.swift in Sources */,
 				7FB528D626C5DBAE005DD8B6 /* TheMealDB.swift in Sources */,
 				7FB528DA26C5DBD5005DD8B6 /* Categories.swift in Sources */,
-				7FFECE6F26D81A140041367D /* UIViewController+Helpers.swift in Sources */,
+				7FFECE6F26D81A140041367D /* String+Helpers.swift in Sources */,
 				7FB528D026C5D678005DD8B6 /* CategoriesTableViewController.swift in Sources */,
 				7FB528D426C5D6E1005DD8B6 /* MealViewController.swift in Sources */,
 				7FB528D826C5DBBF005DD8B6 /* Endpoints.swift in Sources */,
