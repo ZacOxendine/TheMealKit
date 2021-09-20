@@ -34,28 +34,25 @@ struct Meal: Decodable {
 
     var name: String
     let instructions: String
-    let ingredients: [String]
-    let measurements: [String]
+    let ingredients: [String: String?]
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        var ingredients: [String] = []
-        var measurements: [String] = []
+        var ingredients: [String: String] = [:]
 
         self.name = try container.decode(String.self, forKey: .name)
         self.instructions = try container.decode(String.self, forKey: .instructions)
 
         for count in 1...20 {
             if let ingredient = try container.decodeIfPresent(String.self, forKey: .init(stringValue: "strIngredient\(count)")!) {
-                ingredients.append(ingredient)
-            }
-
-            if let measurement = try container.decodeIfPresent(String.self, forKey: .init(stringValue: "strMeasure\(count)")!) {
-                measurements.append(measurement)
+                if let measure = try container.decodeIfPresent(String.self, forKey: .init(stringValue: "strMeasure\(count)")!) {
+                    ingredients[ingredient.titlized()] = measure.lowercased()
+                } else {
+                    ingredients[ingredient.titlized()] = nil
+                }
             }
         }
 
         self.ingredients = ingredients
-        self.measurements = measurements
     }
 }

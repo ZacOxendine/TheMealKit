@@ -8,27 +8,13 @@
 import Foundation
 
 class TheMealDB {
-    // Request & Decode Data from Categories Endpoint
-    func requestCategories(completion: @escaping (Categories?) -> Void) {
-        URLSession.shared.dataTask(with: Endpoint.categories().url) { data, _, error in
-            guard let data = data else { fatalError(error?.localizedDescription ?? "unknown error") }
-            if let decodedData = try? JSONDecoder().decode(Categories.self, from: data) { completion(decodedData) }
-        }.resume()
-    }
-
-    // Request & Decode Data from Filter Meals by Category Endpoint
-    func requestMeals(by category: String, completion: @escaping (CategoryMeals?) -> Void) {
-        URLSession.shared.dataTask(with: Endpoint.meals(by: category).url) { data, _, error in
-            guard let data = data else { fatalError(error?.localizedDescription ?? "unknown error") }
-            if let decodedData = try? JSONDecoder().decode(CategoryMeals.self, from: data) { completion(decodedData) }
-        }.resume()
-    }
-
-    // Request & Decode Data from Lookup Meal by ID Endpoint
-    func requestMeal(by id: String, completion: @escaping (Meals?) -> Void) {
-        URLSession.shared.dataTask(with: Endpoint.meal(by: id).url) { data, _, error in
-            guard let data = data else { fatalError(error?.localizedDescription ?? "unknown error") }
-            if let decodedData = try? JSONDecoder().decode(Meals.self, from: data) { completion(decodedData) }
-        }.resume()
+    // Request & Decode Data from Endpoints
+    func request<T: Decodable>(_ endpoint: Endpoint, then completionHandler: @escaping (T) -> Void) {
+        if let url = endpoint.url {
+            URLSession.shared.dataTask(with: url) { data, _, error in
+                guard let data = data else { fatalError(error?.localizedDescription ?? "unknown error") } // implement error handling, remove fatalError
+                if let decodedData = try? JSONDecoder().decode(T.self, from: data) { completionHandler(decodedData) }
+            }.resume()
+        }
     }
 }

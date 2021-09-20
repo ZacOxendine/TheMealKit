@@ -19,8 +19,8 @@ class CategoriesTableViewController: UITableViewController {
         super.viewDidLoad()
         tableView.dataSource = self
         navigationItem.title = "Categories"
-        theMealDB.requestCategories(completion: { categories in
-            if let categories = categories { self.categories = categories.all }
+        theMealDB.request(.categories(), then: { (categories: Categories) in
+            self.categories = categories.all
             DispatchQueue.main.async { self.tableView.reloadData() }
         })
     }
@@ -42,8 +42,8 @@ class CategoriesTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == segueIdentifier {
             if let indexPath = tableView.indexPathForSelectedRow {
-                let mealsTableViewController = segue.destination as! MealsTableViewController
-                mealsTableViewController.category = categories[indexPath.row].name
+                let categoryMealsTableViewController = segue.destination as! CategoryMealsTableViewController
+                categoryMealsTableViewController.categoryName = categories[indexPath.row].name
             }
         }
     }

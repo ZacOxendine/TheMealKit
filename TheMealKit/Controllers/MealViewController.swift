@@ -27,8 +27,8 @@ class MealViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Recipe"
-        theMealDB.requestMeal(by: id, completion: { meals in
-            if let meals = meals { self.meals = meals.all }
+        theMealDB.request(.meal(by: id), then: { (meals: Meals) in
+            self.meals = meals.all
         })
     }
 
@@ -36,13 +36,12 @@ class MealViewController: UIViewController {
         var list = String()
 
         for index in meal.ingredients.indices {
-            var ingredient = meal.ingredients[index].trimmingCharacters(in: .whitespaces)
-            var measurement = meal.measurements[index].trimmingCharacters(in: .whitespaces)
-
-            if !ingredient.isEmpty && !measurement.isEmpty {
-                ingredient = ingredient.titlized()
-                measurement = measurement.lowercased()
-                list += "• \(ingredient) (\(measurement))\n"
+            let ingredient = meal.ingredients.keys[index].trimmingCharacters(in: .whitespaces)
+            if var measure = meal.ingredients.values[index] {
+                measure = measure.trimmingCharacters(in: .whitespaces)
+                if !ingredient.isEmpty && !measure.isEmpty { list += "• \(ingredient), \(measure)\n" }
+            } else {
+                if !ingredient.isEmpty { list += "• \(ingredient)" }
             }
         }
 

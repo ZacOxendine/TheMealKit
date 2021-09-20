@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Category Meals
-struct CategoryMeals: Codable {
+struct CategoryMeals: Decodable {
     enum CodingKeys: String, CodingKey {
         case all = "meals"
     }
@@ -17,7 +17,7 @@ struct CategoryMeals: Codable {
 }
 
 // MARK: - Category Meal
-struct CategoryMeal: Codable {
+struct CategoryMeal: Decodable {
     enum CodingKeys: String, CodingKey {
         case name = "strMeal"
         case id = "idMeal"
