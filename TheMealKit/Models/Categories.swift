@@ -9,18 +9,18 @@ import Foundation
 
 // MARK: - Categories
 struct Categories: Decodable {
+    let all: [Category]
+    
     enum CodingKeys: String, CodingKey {
         case all = "categories"
     }
-
-    let all: [Category]
 }
 
 // MARK: - Category
 struct Category: Decodable {
+    let name: String
+
     enum CodingKeys: String, CodingKey {
         case name = "strCategory"
     }
-
-    let name: String
 }

@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - Endpoints
+
 struct Endpoint {
     // URL Components
     let scheme = "https"
@@ -26,7 +28,7 @@ extension Endpoint {
     }
 
     // Filter Meals by Category Endpoint
-    static func meals(by category: String) -> Self {
+    static func meals(from category: String) -> Self {
         Endpoint(
             subpath: "filter.php",
             urlQueryItems: [
@@ -36,7 +38,7 @@ extension Endpoint {
     }
 
     // Lookup Meal by ID Endpoint
-    static func meal(by id: String) -> Self {
+    static func meals(with id: String) -> Self {
         Endpoint(
             subpath: "lookup.php",
             urlQueryItems: [

@@ -11,9 +11,9 @@ class MealViewController: UIViewController {
     @IBOutlet weak var nameTextView: UITextView!
     @IBOutlet weak var ingredientsTextView: UITextView!
     @IBOutlet weak var instructionsTextView: UITextView!
-    let theMealDB = TheMealDB()
+    let networkingService = NetworkingService()
     var id = String()
-    var meals = [Meal]() {
+    var meals = [IDMeal]() {
         didSet {
             guard let meal = meals.first else { return }
             DispatchQueue.main.async { [self] in
@@ -27,12 +27,28 @@ class MealViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Recipe"
-        theMealDB.request(.meal(by: id), then: { (meals: Meals) in
-            self.meals = meals.all
+        loadMeals()
+    }
+
+    // MARK: - Data Management
+
+    func loadMeals() {
+        typealias ResultAlias = Result<IDMeals, NetworkingError>
+        networkingService.fetch(.meals(with: id), handler: { [weak self] (result: ResultAlias) in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let meals):
+                    self?.meals = meals.all
+                case .failure(let error):
+                    self?.handle(error, retryHandler: {
+                        self?.loadMeals()
+                    })
+                }
+            }
         })
     }
 
-    func formatIngredients(of meal: Meal) -> String {
+    func formatIngredients(of meal: IDMeal) -> String {
         var list = String()
 
         for index in meal.ingredients.indices {

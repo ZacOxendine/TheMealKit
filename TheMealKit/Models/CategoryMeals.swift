@@ -9,20 +9,20 @@ import Foundation
 
 // MARK: - Category Meals
 struct CategoryMeals: Decodable {
+    let all: [CategoryMeal]
+
     enum CodingKeys: String, CodingKey {
         case all = "meals"
     }
-
-    let all: [CategoryMeal]
 }
 
 // MARK: - Category Meal
 struct CategoryMeal: Decodable {
+    let name: String
+    let id: String
+
     enum CodingKeys: String, CodingKey {
         case name = "strMeal"
         case id = "idMeal"
     }
-
-    let name: String
-    let id: String
 }
