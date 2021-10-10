@@ -33,7 +33,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Category Table View Cell" id="zkb-WX-ffO">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Categories Table View Cell" id="zkb-WX-ffO">
                                 <rect key="frame" x="0.0" y="24.5" width="320" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zkb-WX-ffO" id="dBS-KY-rTv">
@@ -41,7 +41,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="ZkY-Rh-TDU" kind="show" identifier="Category Storyboard Segue" id="Bvy-Oq-Vdm"/>
+                                    <segue destination="ZkY-Rh-TDU" kind="show" identifier="Categories Storyboard Segue" id="Bvy-Oq-Vdm"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -56,16 +56,16 @@
             </objects>
             <point key="canvasLocation" x="-86747" y="-3080"/>
         </scene>
-        <!--Meals Table View Controller-->
+        <!--Category Meals Table View Controller-->
         <scene sceneID="DFS-Gg-cR8">
             <objects>
-                <tableViewController id="ZkY-Rh-TDU" customClass="MealsTableViewController" customModule="TheMealKit" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="0U0-kP-GLb" userLabel="Meals Table View">
+                <tableViewController id="ZkY-Rh-TDU" customClass="CategoryMealsTableViewController" customModule="TheMealKit" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="0U0-kP-GLb" userLabel="Category Meals Table View">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Meals Table View Cell" id="hTj-Sl-bWc">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Category Meals Table View Cell" id="hTj-Sl-bWc">
                                 <rect key="frame" x="0.0" y="24.5" width="320" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hTj-Sl-bWc" id="ynX-Dg-tSA">
@@ -73,7 +73,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="fiM-6s-J38" kind="show" identifier="Meals Storyboard Segue" id="rIk-s5-SOT"/>
+                                    <segue destination="fiM-6s-J38" kind="show" identifier="Category Meals Storyboard Segue" id="rIk-s5-SOT"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -88,11 +88,11 @@
             </objects>
             <point key="canvasLocation" x="-85956" y="-3080"/>
         </scene>
-        <!--Meal View Controller-->
+        <!--ID Meals View Controller-->
         <scene sceneID="mBl-j6-qKV">
             <objects>
-                <viewController id="fiM-6s-J38" customClass="MealViewController" customModule="TheMealKit" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="NWt-ij-6Ka" userLabel="Meal View">
+                <viewController id="fiM-6s-J38" userLabel="ID Meals View Controller" customClass="IDMealsViewController" customModule="TheMealKit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NWt-ij-6Ka" userLabel="Content View">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>

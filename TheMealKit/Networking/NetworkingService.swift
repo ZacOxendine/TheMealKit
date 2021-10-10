@@ -37,6 +37,7 @@ class NetworkingService {
         })
     }
 
+    // Get Network Path Status
     private func getStatus(handler: @escaping (NWPath.Status) -> Void) {
         let pathMonitor = NWPathMonitor()
         let dispatchQueue = DispatchQueue(label: "Path Monitor")

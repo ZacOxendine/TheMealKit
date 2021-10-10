@@ -1,5 +1,5 @@
 //
-//  IDMeal.swift
+//  IDMeals.swift
 //  TheMealKit
 //
 //  Created by Zachary Oxendine on 8/12/21.
@@ -16,31 +16,47 @@ struct IDMeals: Decodable {
     }
 }
 
-// MARK: - ID Meal
+// MARK: - ID Meals
 struct IDMeal: Decodable {
-    var name: String
+    let name: String
     let instructions: String
     let ingredients: [String: String?]
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        var ingredients: [String: String] = [:]
 
-        self.name = try container.decode(String.self, forKey: .name)
-        self.instructions = try container.decode(String.self, forKey: .instructions)
+        // Name Formatting
+        let name = try container.decode(String.self, forKey: .name)
+        self.name = name.formatted(as: .name)
+
+        // Instructions Formatting
+        let instructions = try container.decode(String.self, forKey: .instructions)
+        self.instructions = instructions.formatted(as: .instructions)
+
+        // Ingredients Formatting
+        var ingredients: [String: String?] = [:]
 
         for count in 1...20 {
-            if let ingredient = try container.decodeIfPresent(
+            if var ingredient = try container.decodeIfPresent(
                 String.self,
                 forKey: .init(stringValue: "strIngredient\(count)")!
             ) {
-                if let measure = try container.decodeIfPresent(
+                if var measure = try container.decodeIfPresent(
                     String.self,
                     forKey: .init(stringValue: "strMeasure\(count)")!
                 ) {
-                    ingredients[ingredient.titlized()] = measure.lowercased()
-                } else {
-                    ingredients[ingredient.titlized()] = nil
+                    ingredient = ingredient.formatted(as: .ingredient)
+                    measure = measure.formatted(as: .measure)
+
+                    if ingredient.isEmpty {
+                        continue
+                    } else {
+                        if measure.isEmpty {
+                            ingredients[ingredient] = nil
+                        } else {
+                            ingredients[ingredient] = measure
+                        }
+                    }
                 }
             }
         }

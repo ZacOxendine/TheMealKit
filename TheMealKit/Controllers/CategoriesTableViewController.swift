@@ -8,59 +8,55 @@
 import UIKit
 
 class CategoriesTableViewController: UITableViewController {
-    let cellIdentifier = "Category Table View Cell"
-    let segueIdentifier = "Category Storyboard Segue"
-    let networkingService = NetworkingService()
-    var categories = [Category]() {
-        didSet { categories.sort(by: { $0.name < $1.name }) }
-    }
+    let categoriesModel = CategoriesModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         navigationItem.title = "Categories"
-        loadCategories()
+        categoriesModel.categoriesModelDelegate = self
+        categoriesModel.loadCategories()
     }
 
     // MARK: - Table View Data Source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories.count
+        return categoriesModel.categories.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-        cell.textLabel?.text = categories[indexPath.row].name
+        let cell = tableView.dequeueReusableCell(withIdentifier: categoriesModel.cellIdentifier, for: indexPath)
+        cell.textLabel?.text = categoriesModel.categories[indexPath.row].name
         return cell
     }
 
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == segueIdentifier {
+        if segue.identifier == categoriesModel.segueIdentifier {
             if let indexPath = tableView.indexPathForSelectedRow {
-                let mealsTableViewController = segue.destination as! MealsTableViewController
-                mealsTableViewController.category = categories[indexPath.row].name
+                let categoryMealsTableViewController = segue.destination as! CategoryMealsTableViewController
+                categoryMealsTableViewController.categoryMealsModel.category = categoriesModel.categories[indexPath.row].name
             }
         }
     }
+}
 
-    // MARK: - Data Management
+// MARK: - Delegation
 
-    func loadCategories() {
-        typealias ResultAlias = Result<Categories, NetworkingError>
-        networkingService.fetch(.categories(), handler: { [weak self] (result: ResultAlias) in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let categories):
-                    self?.categories = categories.all
-                    self?.tableView.reloadData()
-                case .failure(let error):
-                    self?.handle(error, retryHandler: {
-                        self?.loadCategories()
-                    })
-                }
-            }
-        })
+extension CategoriesTableViewController: CategoriesModelDelegate {
+    func loadedCategories(_ categories: [Category]) {
+        DispatchQueue.main.async {
+            self.categoriesModel.categories = categories
+            self.tableView.reloadData()
+        }
+    }
+
+    func loadFailed(_ networkingError: NetworkingError) {
+        DispatchQueue.main.async {
+            self.handle(networkingError, retryHandler: {
+                self.categoriesModel.loadCategories()
+            })
+        }
     }
 }
