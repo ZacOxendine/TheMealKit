@@ -1,34 +1,28 @@
-//
-//  IDMealsViewController.swift
-//  TheMealKit
-//
-//  Created by Zachary Oxendine on 8/12/21.
-//
-
 import UIKit
 
-class IDMealsViewController: UIViewController {
+class IDMealViewController: UIViewController {
     @IBOutlet weak var nameTextView: UITextView!
     @IBOutlet weak var ingredientsTextView: UITextView!
     @IBOutlet weak var instructionsTextView: UITextView!
-    let idMealsModel = IDMealsModel()
+    let viewModel = IDMealViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Recipe"
-        idMealsModel.idMealsModelDelegate = self
-        idMealsModel.loadIDMeals()
+        viewModel.delegate = self
+        viewModel.loadIDMeals()
     }
 }
 
-extension IDMealsViewController: IDMealsModelDelegate {
+// MARK: - Delegation
+
+extension IDMealViewController: IDMealViewModelDelegate {
     func loadedIDMeals(_ idMeals: [IDMeal]) {
         DispatchQueue.main.async {
-            for idMeal in idMeals {
-                self.idMealsModel.idMeal = idMeal
+            if let idMeal = idMeals.first {
                 self.nameTextView.text = idMeal.name
                 self.instructionsTextView.text = idMeal.instructions
-                self.ingredientsTextView.text = self.idMealsModel.listIngredients(of: idMeal)
+                self.ingredientsTextView.text = self.viewModel.listIngredients(of: idMeal)
             }
         }
     }
@@ -36,8 +30,13 @@ extension IDMealsViewController: IDMealsModelDelegate {
     func loadFailed(_ networkingError: NetworkingError) {
         DispatchQueue.main.async {
             self.handle(networkingError, retryHandler: {
-                self.idMealsModel.loadIDMeals()
+                self.viewModel.loadIDMeals()
             })
         }
     }
+}
+
+protocol IDMealViewModelDelegate: AnyObject {
+    func loadedIDMeals(_ idMeals: [IDMeal])
+    func loadFailed(_ networkingError: NetworkingError)
 }

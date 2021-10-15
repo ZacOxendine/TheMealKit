@@ -1,43 +1,26 @@
-//
-//  CategoryMealsTableViewController.swift
-//  TheMealKit
-//
-//  Created by Zachary Oxendine on 8/12/21.
-//
-
 import UIKit
 
 class CategoryMealsTableViewController: UITableViewController {
-    let categoryMealsModel = CategoryMealsModel()
+    let dataSource = CategoryMealsTableViewDataSource()
+    let viewModel = CategoryMealsViewModel()
+    let identifier = "Category Meals Storyboard Segue"
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
-        navigationItem.title = categoryMealsModel.category
-        categoryMealsModel.categoryMealsModelDelegate = self
-        categoryMealsModel.loadCategoryMeals()
-    }
-
-    // MARK: - Table View Data Source
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categoryMealsModel.categoryMeals.count
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: categoryMealsModel.cellIdentifier, for: indexPath)
-        cell.textLabel?.numberOfLines = 0
-        cell.textLabel?.text = categoryMealsModel.categoryMeals[indexPath.row].name
-        return cell
+        tableView.dataSource = dataSource
+        navigationItem.title = viewModel.category?.name
+        viewModel.delegate = self
+        viewModel.loadCategoryMeals()
     }
 
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == categoryMealsModel.segueIdentifier {
+        if segue.identifier == identifier {
             if let indexPath = tableView.indexPathForSelectedRow {
-                let mealViewController = segue.destination as! IDMealsViewController
-                mealViewController.idMealsModel.id = categoryMealsModel.categoryMeals[indexPath.row].id
+                let categoryMeal = dataSource.categoryMeals[indexPath.row]
+                let idMealViewController = segue.destination as! IDMealViewController
+                idMealViewController.viewModel.categoryMeal = categoryMeal
             }
         }
     }
@@ -45,10 +28,10 @@ class CategoryMealsTableViewController: UITableViewController {
 
 // MARK: - Delegation
 
-extension CategoryMealsTableViewController: CategoryMealsModelDelegate {
+extension CategoryMealsTableViewController: CategoryMealsViewModelDelegate {
     func loadedCategoryMeals(_ meals: [CategoryMeal]) {
         DispatchQueue.main.async {
-            self.categoryMealsModel.categoryMeals = meals
+            self.dataSource.categoryMeals = meals
             self.tableView.reloadData()
         }
     }
@@ -56,8 +39,13 @@ extension CategoryMealsTableViewController: CategoryMealsModelDelegate {
     func loadFailed(_ error: NetworkingError) {
         DispatchQueue.main.async {
             self.handle(error, retryHandler: {
-                self.categoryMealsModel.loadCategoryMeals()
+                self.viewModel.loadCategoryMeals()
             })
         }
     }
+}
+
+protocol CategoryMealsViewModelDelegate: AnyObject {
+    func loadedCategoryMeals(_ categoryMeals: [CategoryMeal])
+    func loadFailed(_ networkingError: NetworkingError)
 }

@@ -1,13 +1,6 @@
-//
-//  String+Formats.swift
-//  TheMealKit
-//
-//  Created by Zachary Oxendine on 8/26/21.
-//
-
 import Foundation
 
-// MARK: - String Formats
+// MARK: - String Formatting
 
 enum Format {
     case name

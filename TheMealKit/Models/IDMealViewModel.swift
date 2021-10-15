@@ -1,34 +1,22 @@
-//
-//  IDMealsModel.swift
-//  TheMealKit
-//
-//  Created by Zachary Oxendine on 10/2/21.
-//
-
 import Foundation
 
-protocol IDMealsModelDelegate: AnyObject {
-    func loadedIDMeals(_ idMeals: [IDMeal])
-    func loadFailed(_ networkingError: NetworkingError)
-}
-
-class IDMealsModel {
-    var idMeal: IDMeal?
-    var id = String()
-
+class IDMealViewModel {
     let networkingService = NetworkingService()
-    weak var idMealsModelDelegate: IDMealsModelDelegate?
+    var categoryMeal: CategoryMeal?
+    weak var delegate: IDMealViewModelDelegate?
 
     func loadIDMeals() {
-        typealias ResultAlias = Result<IDMeals, NetworkingError>
-        networkingService.fetch(.meals(with: id), handler: { [weak self] (result: ResultAlias) in
-            switch result {
-            case .success(let idMeals):
-                self?.idMealsModelDelegate?.loadedIDMeals(idMeals.all)
-            case .failure(let networkingError):
-                self?.idMealsModelDelegate?.loadFailed(networkingError)
-            }
-        })
+        if let categoryMeal = categoryMeal {
+            typealias ResultAlias = Result<IDMeals, NetworkingError>
+            networkingService.fetch(.meals(with: categoryMeal.id), handler: { [weak self] (result: ResultAlias) in
+                switch result {
+                case .success(let idMeals):
+                    self?.delegate?.loadedIDMeals(idMeals.all)
+                case .failure(let networkingError):
+                    self?.delegate?.loadFailed(networkingError)
+                }
+            })
+        }
     }
 
     func listIngredients(of idMeal: IDMeal) -> String {

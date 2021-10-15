@@ -59,7 +59,7 @@
         <!--Category Meals Table View Controller-->
         <scene sceneID="DFS-Gg-cR8">
             <objects>
-                <tableViewController id="ZkY-Rh-TDU" customClass="CategoryMealsTableViewController" customModule="TheMealKit" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="Category Meals Table View Controller" id="ZkY-Rh-TDU" customClass="CategoryMealsTableViewController" customModule="TheMealKit" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="0U0-kP-GLb" userLabel="Category Meals Table View">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -91,7 +91,7 @@
         <!--ID Meals View Controller-->
         <scene sceneID="mBl-j6-qKV">
             <objects>
-                <viewController id="fiM-6s-J38" userLabel="ID Meals View Controller" customClass="IDMealsViewController" customModule="TheMealKit" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="fiM-6s-J38" userLabel="ID Meals View Controller" customClass="IDMealViewController" customModule="TheMealKit" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NWt-ij-6Ka" userLabel="Content View">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

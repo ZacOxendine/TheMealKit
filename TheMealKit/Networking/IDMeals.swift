@@ -1,10 +1,3 @@
-//
-//  IDMeals.swift
-//  TheMealKit
-//
-//  Created by Zachary Oxendine on 8/12/21.
-//
-
 import Foundation
 
 // MARK: - ID Meals
@@ -16,7 +9,7 @@ struct IDMeals: Decodable {
     }
 }
 
-// MARK: - ID Meals
+// MARK: - ID Meal
 struct IDMeal: Decodable {
     let name: String
     let instructions: String

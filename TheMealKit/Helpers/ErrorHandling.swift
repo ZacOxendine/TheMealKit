@@ -1,10 +1,3 @@
-//
-//  ErrorHandling.swift
-//  TheMealKit
-//
-//  Created by Zachary Oxendine on 9/27/21.
-//
-
 import UIKit
 
 // MARK: - Error Handling
